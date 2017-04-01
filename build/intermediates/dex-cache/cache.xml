@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/62f0945c5f2891729118858dc04e1d8d78fe29ba/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_989262a8cf00b4526d6d4500290aa349daed2eaa/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/154d786c0394f7989354556ea18f6af6b703bfd2/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fe2dc1f5f9d36154dad47fb815beae37884d4c9f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/6a148962041c2be28c8645f264c69981f80e3ba6/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a724ff45e58c44ba58ce4aec6fe23ea0a9ccae7c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/8db572b3e466202e46684f3046b9a760e3474424/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_411dbcc07eab40d171d4400e2b5987b2408294b9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_a608e0dfb952add5d3e9dcfc2df25a1c22f982ef/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/afd7bdd874558456ffc055f2a7ed308ef35bb84a/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_322f66eca4ef4af41e28d0e6bde90fa85b555fd9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/742da73e22a06643cecd8e977dacbb667510c3b7/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_57554d0050649c6208e6fbd60ff29c3c68ab8099/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/da99868dbbad96097fe3aae3ee024779886789f8/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fb71ef327fd25bbefdb110a4fa65e09cc4e2785e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/0c9ffcbd7888489ca0edebb20af152853ae3a76e/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f5d3077cbcfc0e24ec8d5661a439352aab87d1be/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.3.1_d37c7bd98f16f6b875556993d5c8bc06ed57fb7e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d363d2448562798feff36c7f265b288c4dc1b1a8">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_3a13547cfb9c0ec65fd92d638bfe1ba0d17fa2c2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/4bf8b096eff82d338356a39b68de651885b378a7/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_05aac8d78d0479912d72a3fc413300ca84c3ad61/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/constraint-layout-solver-1.0.2_a3f8dcbb38ed5b84a26635344ef5a699c73f5ce6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/.android/build-cache/e62cb63b609941ec7994b86fb11a6defd03212aa/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_93bdfa27427eedfa6e71f1d0b6f6b78ea6905078/classes.dex" />
+    </item>
+
+</items>
