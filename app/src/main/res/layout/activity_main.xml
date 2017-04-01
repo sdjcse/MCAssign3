@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.vamsikrishnag.mcassign3.MainActivity">
+
+
+    <TextView
+        android:id="@+id/activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="121dp" />
+
+    <RadioButton
+        android:id="@+id/run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Run"
+        tools:layout_editor_absoluteX="87dp"
+        tools:layout_editor_absoluteY="113dp" />
+
+    <RadioButton
+        android:id="@+id/walk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Walk"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="113dp" />
+
+    <RadioButton
+        android:id="@+id/Eat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eat"
+        tools:layout_editor_absoluteX="263dp"
+        tools:layout_editor_absoluteY="113dp" />
+
+
+    <Button
+        android:id="@+id/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="268dp" />
+
+    <Button
+        android:id="@+id/train"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Train"
+        tools:layout_editor_absoluteX="146dp"
+        tools:layout_editor_absoluteY="268dp" />
+
+    <Button
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        tools:layout_editor_absoluteX="276dp"
+        tools:layout_editor_absoluteY="268dp" />
+
+    <Button
+        android:id="@+id/performance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Performance"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="381dp" />
+
+    <Button
+        android:id="@+id/visual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visualization"
+        tools:layout_editor_absoluteX="200dp"
+        tools:layout_editor_absoluteY="381dp" />
+
+
+</android.support.constraint.ConstraintLayout>
