@@ -19,33 +19,37 @@
             android:textSize="15sp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="121dp" />
-
-        <RadioButton
-            android:id="@+id/run"
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Run"
-            tools:layout_editor_absoluteX="87dp"
-            tools:layout_editor_absoluteY="113dp" />
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Run"
+                tools:layout_editor_absoluteX="87dp"
+                tools:layout_editor_absoluteY="113dp" />
 
-        <RadioButton
-            android:id="@+id/walk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Walk"
-            tools:layout_editor_absoluteX="171dp"
-            tools:layout_editor_absoluteY="113dp" />
+            <RadioButton
+                android:id="@+id/walk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Walk"
+                tools:layout_editor_absoluteX="171dp"
+                tools:layout_editor_absoluteY="113dp" />
 
-        <RadioButton
-            android:id="@+id/Eat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Eat"
-            tools:layout_editor_absoluteX="263dp"
-            tools:layout_editor_absoluteY="113dp" />
+            <RadioButton
+                android:id="@+id/Eat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Eat"
+                tools:layout_editor_absoluteX="263dp"
+                tools:layout_editor_absoluteY="113dp" />
+        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
