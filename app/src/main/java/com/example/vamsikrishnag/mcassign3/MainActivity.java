@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 float y = acclEvent.values[1];
                 float z = acclEvent.values[2];
                 long currentTime = System.currentTimeMillis();
-//                String msg=Long.toString(currentTime)+","+Float.toString(x)+","+Float.toString(y)+","+Float.toString(z);
                 String msg=Float.toString(x)+","+Float.toString(y)+","+Float.toString(z);
                 if ((currentTime-previousTime)>=90)
                 {
@@ -58,23 +57,32 @@ public class MainActivity extends AppCompatActivity {
                     if (columnSize==50)
                     {
                         rowToBeInserted=Long.toString(currentTime)+rowToBeInserted+","+Integer.toString(activity_label);
-                        try {
-                            dbCon.execSQL("INSERT INTO " + tableName + " VALUES (" + rowToBeInserted + ");");
-                            progress.dismiss();
-                            Toast.makeText(getApplicationContext()," Row Inserted ",Toast.LENGTH_LONG).show();
-                            Log.d(" Row insert successful:", rowToBeInserted);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.d(e.getMessage()," at - Insert part "+rowToBeInserted);
-                        }
+                        insertRow(rowToBeInserted, activity_label);
                         rowToBeInserted="";
                         columnSize=0;
                         AcclManager.unregisterListener(acclListener);
                         dbCon.close();
-    //                    finish();
                     }
                 }
+            }
+        }
+
+        public void insertRow(String row,int label)
+        {
+            String t_name="Training";
+            if(label==-1)
+            {
+                t_name="Test";
+            }
+            try {
+                dbCon.execSQL("INSERT INTO " + t_name + " VALUES (" + row + ");");
+                progress.dismiss();
+                Toast.makeText(getApplicationContext()," Row Inserted ",Toast.LENGTH_LONG).show();
+                Log.d(" Row insert successful:", rowToBeInserted);
+            }
+            catch (Exception e)
+            {
+                Log.d(e.getMessage()," at - Insert part "+rowToBeInserted);
             }
         }
 
@@ -91,12 +99,35 @@ public class MainActivity extends AppCompatActivity {
         AcclManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Accelerometer = AcclManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         AcclManager.registerListener(acclListener,Accelerometer,100000/*0.1 secondsSensorManager.SENSOR_DELAY_NORMAL*/);
-        Log.d("Registered Listener","Registered Listener");
     }
 
-    private void createTable(String t_name,SQLiteDatabase connection)
+    private void displayTable(SQLiteDatabase db, String t_name)
     {
-        Log.d(t_name,t_name);
+        String selectQuery= "SELECT * FROM " + tableName+";";
+        Cursor sel = dbCon.rawQuery(selectQuery, null);
+        sel.moveToFirst();
+        int c=0;
+        do{
+            int noOfColumns= sel.getColumnCount();
+            String row="";
+            row= row+ Integer.toString(sel.getInt(0));
+            for(int i=1;i<noOfColumns-1;i++)
+            {
+                row= row+","+Float.toString(sel.getFloat(i));
+            }
+            row= row +","+ Integer.toString(sel.getInt(noOfColumns-1));
+            Log.d("Row No. "+Integer.toString(c), row);
+            c++;
+        }while (sel.moveToNext());
+    }
+    private void deleteTestTable(SQLiteDatabase db)
+    {
+        displayTable(db,"Test");
+        db.execSQL("DROP TABLE IF EXISTS Test");
+    }
+
+    private void createTable(SQLiteDatabase connection, String t_name)
+    {
         String createTableName="CREATE TABLE " + t_name + " (ID REAL";
         for (int i=0;i<50;i++)
         {
@@ -107,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         }
         createTableName=createTableName+", Activity_Label INTEGER);"; //0- walking, 1- running,  2 - eating
         try {
-//            connection.execSQL("CREATE TABLE " + t_name + " (Time_Stamp REAL, X_Value REAL, Y_Value REAL, Z_Value REAL);");
             connection.execSQL(createTableName);
             Log.d("Table Created ", t_name);
         }
@@ -144,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     activity_label= 2;
                 }
                 tableName= "Training";
-                createTable(tableName, dbCon);
+                createTable(dbCon,tableName);
                 registerAcclListener(activityToBeRecorded);
             }
         });
@@ -155,23 +185,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-//                String selectQuery="SELECT * FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
-                String selectQuery= "SELECT * FROM " + tableName+";";
-                Cursor sel = dbCon.rawQuery(selectQuery, null);
-                sel.moveToFirst();
-                int c=0;
-                do{
-                    int noOfColumns= sel.getColumnCount();
-                    String row="";
-                    row= row+ Integer.toString(sel.getInt(0));
-                    for(int i=1;i<noOfColumns-1;i++)
-                    {
-                        row= row+","+Float.toString(sel.getFloat(i));
-                    }
-                    row= row +","+ Integer.toString(sel.getInt(noOfColumns-1));
-                    Log.d("Row No. "+Integer.toString(c), row);
-                    c++;
-                }while (sel.moveToNext());
+                tableName="Training";
+                displayTable(dbCon,"Training");
                 dbCon.close();
           }
         });
@@ -182,13 +197,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-//                activityToBeRecorded= "performing the activity";
-////                tableName= "Test";
-//                dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-//                activity_label = -1;
-//                createTable(tableName, dbCon);
-//                registerAcclListener(activityToBeRecorded);
-//                predictActivity(); Open DB; Query Test table; Use SVM, predict and display the class label
+                activityToBeRecorded= "performing the activity";
+                tableName= "Test";
+                activity_label = -1;
+                dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
+                createTable(dbCon,tableName);
+                registerAcclListener(activityToBeRecorded);
+                if(!progress.isShowing())
+                {
+//                  predictActivity(); Open DB; Query Test table; Use SVM, predict and display the class label
+                    deleteTestTable(dbCon);
+                    dbCon.close();
+                }
             }
         });
     }
