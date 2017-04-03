@@ -10,10 +10,10 @@ import java.util.List;
  */
 
 public class DataBean {
-    private List<Float> accleromterData = null;
+    private List<Double> accleromterData = null;
     private ActivityType actType;
 
-    public List<Float> getAccleromterData() {
+    public List<Double> getAccleromterData() {
         return accleromterData;
     }
 
@@ -24,7 +24,7 @@ public class DataBean {
     DataBean(){
         accleromterData = new ArrayList<>();
     }
-    DataBean(ActivityType actType,List<Float> data){
+    DataBean(ActivityType actType,List<Double> data){
         this.accleromterData = data;
         this.actType = actType;
     }
