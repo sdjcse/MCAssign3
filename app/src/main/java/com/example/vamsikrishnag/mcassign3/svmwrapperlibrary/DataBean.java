@@ -21,10 +21,10 @@ public class DataBean {
         return actType;
     }
 
-    DataBean(){
+    public DataBean(){
         accleromterData = new ArrayList<>();
     }
-    DataBean(ActivityType actType,List<Double> data){
+    public DataBean(ActivityType actType,List<Double> data){
         this.accleromterData = data;
         this.actType = actType;
     }

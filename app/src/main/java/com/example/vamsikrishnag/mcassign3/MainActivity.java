@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private int activity_label; //0- walking, 1- running,  2 - eating
     private int columnSize=0;
     private String rowToBeInserted="";
+    private SVMService serviceObject=null;
 
     ProgressDialog progress;
     private String dbPath= "Assignment3_test2.db";
@@ -69,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         public void insertRow(String row,int label)
         {
-            String t_name="Training";
+            String t_name=Constants.TRAINING_TABLE;
             if(label==-1)
             {
-                t_name="Test";
+                t_name=Constants.TEST_TABLE;
             }
             try {
                 dbCon.execSQL("INSERT INTO " + t_name + " VALUES (" + row + ");");
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void deleteTestTable(SQLiteDatabase db)
     {
-        displayTable(db,"Test");
+        displayTable(db,Constants.TEST_TABLE);
         db.execSQL("DROP TABLE IF EXISTS Test");
     }
 
@@ -173,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     activityToBeRecorded = "Eating";
                     activity_label= 2;
                 }
-                tableName= "Training";
+                tableName= Constants.TRAINING_TABLE;
                 createTable(dbCon,tableName);
                 registerAcclListener(activityToBeRecorded);
             }
@@ -184,9 +185,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                serviceObject = new SVMService(getApplicationContext());
+                serviceObject.train(dbCon);
                 dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-                tableName="Training";
-                displayTable(dbCon,"Training");
+                tableName=Constants.TRAINING_TABLE;
+                displayTable(dbCon,Constants.TRAINING_TABLE);
                 dbCon.close();
           }
         });
@@ -197,8 +200,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                if(serviceObject == null){
+                    Toast.makeText(getApplicationContext(),Constants.TRAIN_FIRST_STRING,Toast.LENGTH_LONG).show();
+                    return;
+                }
                 activityToBeRecorded= "performing the activity";
-                tableName= "Test";
+                tableName= Constants.TEST_TABLE;
                 activity_label = -1;
                 dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
                 createTable(dbCon,tableName);

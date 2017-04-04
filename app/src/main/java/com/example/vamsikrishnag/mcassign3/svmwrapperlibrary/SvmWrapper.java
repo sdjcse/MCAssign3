@@ -11,7 +11,7 @@ import libsvm.svm;
  */
 
 public class SvmWrapper {
-    SvmWrapper()
+    public SvmWrapper()
     {}
 
     private static svm_parameter paramObject = new svm_parameter();
