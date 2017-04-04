@@ -6,6 +6,8 @@ import java.util.Map;
 
 /**
  * Created by sdj on 4/3/17.
+ *
+ * Enum for different activity types in DB
  */
 
 public enum ActivityType {
