@@ -2,21 +2,20 @@ package com.example.vamsikrishnag.mcassign3;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import android.view.View;
-import android.database.Cursor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private int columnSize=0;
     private String rowToBeInserted="";
     private SVMService serviceObject=null;
-
+    private Button visualizationButton;
     ProgressDialog progress;
     private String dbPath= "Assignment3_test2.db";
     String activityToBeRecorded;
@@ -216,6 +215,16 @@ public class MainActivity extends AppCompatActivity {
                     deleteTestTable(dbCon);
                     dbCon.close();
                 }
+            }
+        });
+
+        visualizationButton = (Button) findViewById(R.id.visual);
+        visualizationButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent newIntention = new Intent(MainActivity.this,Visualization.class);
+                startActivity(newIntention);
             }
         });
     }
