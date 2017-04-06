@@ -3,6 +3,9 @@ package com.example.vamsikrishnag.mcassign3;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
@@ -16,6 +19,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -219,13 +229,85 @@ public class MainActivity extends AppCompatActivity {
         });
 
         visualizationButton = (Button) findViewById(R.id.visual);
-        visualizationButton.setOnClickListener(new View.OnClickListener(){
+        visualizationButton.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
             public void onClick(View view) {
-                Intent newIntention = new Intent(MainActivity.this,Visualization.class);
-                startActivity(newIntention);
+                try
+                {
+                    File csvFileHandler = new File(getApplicationInfo().dataDir,"data.csv");
+                    dbCon = openOrCreateDatabase(dbPath, MODE_PRIVATE, null);
+                    List<List<Float>> accelerometerValues = new ArrayList<List<Float>>();
+                    for (int i = 0; i < 3; i++) {
+                        String selectQuery = "SELECT * FROM " + Constants.TRAINING_TABLE + " WHERE Activity_Label=" + Integer.toString(i) + ";";
+                        List<Float> valuesForActivity = new ArrayList<Float>();
+                        Cursor sel = dbCon.rawQuery(selectQuery, null);
+                        sel.moveToFirst();
+                        do {
+                            int noOfColumns = sel.getColumnCount();
+                            for (int j = 1; j < noOfColumns - 1; j++) {
+                                valuesForActivity.add(sel.getFloat(j));
+                            }
+                        } while (sel.moveToNext());
+                        accelerometerValues.add(valuesForActivity);
+                    }
+                    csvFileHandler.createNewFile();
+                    FileWriter csvWriter= new FileWriter(csvFileHandler);
+                    csvWriter.write("x1,y1,z1,x2,y2,z2,x3,y3,z3\n");
+                    int counter=0;
+                    int[] noOfSamplesList=new int[3];
+                    for(int i=0;i<3;i++)
+                        noOfSamplesList[i]=accelerometerValues.get(i).size();
+                    int maxLines=Math.max(noOfSamplesList[0], Math.max(noOfSamplesList[1],noOfSamplesList[2]));
+                    while(counter<maxLines)
+                    {
+                        String eachLine="";
+                        for(int i=0;i<3;i++) //Walk,run,eat
+                        {
+                            for (int j = 0; j < 3; j++) //X,Y,Z values
+                            {
+                                if (counter < noOfSamplesList[i]) {
+                                    eachLine = eachLine + Float.toString(accelerometerValues.get(i).get(counter + j));
+                                }
+                                eachLine = eachLine + ",";
+                            }
+                        }
+                        int length=eachLine.length();
+                        StringBuilder sbEachLine= new StringBuilder(eachLine);
+                        sbEachLine.deleteCharAt(length-1);
+                        eachLine= sbEachLine.toString();
+                        csvWriter.write(eachLine+"\n");
+                        Log.d("Line number "+Integer.toString(counter)+":", eachLine);
+                        counter+=3;
+                    }
+                    dbCon.close();
+                    csvWriter.flush();
+                    csvWriter.close();
+
+
+                    File newFile= new File(getApplicationInfo().dataDir,"data.csv");
+                    FileReader csvReader=new FileReader(newFile);
+                    BufferedReader br = new BufferedReader(csvReader);
+                    String line="";
+                     while (true)
+                    {
+                        line=br.readLine();
+                        if (line==null)
+                            break;
+                        Log.d("Line is: ",line);
+                    }
+                    csvReader.close();
+
+                    Intent newIntention = new Intent(MainActivity.this, Visualization.class);
+                    startActivity(newIntention);
+                }
+                catch (Exception e)
+                {
+                    Log.d("Visualization Failed:", e.getMessage());
+                }
             }
+
         });
     }
 }
