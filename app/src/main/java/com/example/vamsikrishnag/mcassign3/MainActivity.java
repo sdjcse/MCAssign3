@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import android.os.Environment;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private SVMService serviceObject=null;
     private Button visualizationButton;
     ProgressDialog progress;
-    private String dbPath= "Assignment3_test2.db";
+    private String dbPath;
+    private String dataDirecrtoryPath;
     String activityToBeRecorded;
     long previousTime=0;
     private SensorEventListener acclListener=new SensorEventListener() {
@@ -159,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        dataDirecrtoryPath= "/data/data/"+getApplicationContext().getPackageName();
+        dbPath=dataDirecrtoryPath+"/"+Constants.dbName;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -236,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try
                 {
-                    File csvFileHandler = new File(getApplicationInfo().dataDir,"data.csv");
+                    File csvFileHandler = new File(dataDirecrtoryPath+"/data.csv");
+                    csvFileHandler.createNewFile();
                     dbCon = openOrCreateDatabase(dbPath, MODE_PRIVATE, null);
                     List<List<Float>> accelerometerValues = new ArrayList<List<Float>>();
                     for (int i = 0; i < 3; i++) {
@@ -252,8 +257,8 @@ public class MainActivity extends AppCompatActivity {
                         } while (sel.moveToNext());
                         accelerometerValues.add(valuesForActivity);
                     }
-                    csvFileHandler.createNewFile();
                     FileWriter csvWriter= new FileWriter(csvFileHandler);
+
                     csvWriter.write("x1,y1,z1,x2,y2,z2,x3,y3,z3\n");
                     int counter=0;
                     int[] noOfSamplesList=new int[3];
@@ -285,19 +290,21 @@ public class MainActivity extends AppCompatActivity {
                     csvWriter.flush();
                     csvWriter.close();
 
+//                    File newFile= new File(dataDirecrtoryPath+"/data.csv");
+//                    FileReader csvReader=new FileReader(newFile);
+//                    BufferedReader br = new BufferedReader(csvReader);
+//                    String line="";
+//                     while (true)
+//                    {
+//                        line=br.readLine();
+//                        if (line==null)
+//                            break;
+//                        Log.d("Line is: ",line);
+//                    }
+//                    csvReader.close();
 
-                    File newFile= new File(getApplicationInfo().dataDir,"data.csv");
-                    FileReader csvReader=new FileReader(newFile);
-                    BufferedReader br = new BufferedReader(csvReader);
-                    String line="";
-                     while (true)
-                    {
-                        line=br.readLine();
-                        if (line==null)
-                            break;
-                        Log.d("Line is: ",line);
-                    }
-                    csvReader.close();
+
+                    Log.d("Data Directory path:",dataDirecrtoryPath);
 
                     Intent newIntention = new Intent(MainActivity.this, Visualization.class);
                     startActivity(newIntention);

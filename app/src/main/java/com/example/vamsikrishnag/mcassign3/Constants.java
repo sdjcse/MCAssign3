@@ -14,4 +14,5 @@ public class Constants {
     public static int INPUT_ROWS_TRAINING = 60;
     public static int TEST_ROWS_LIMIT = 20;
     public static String EXCEPTION_SVM_SERVICE = "Exception occured in SVM Service class! Please take a look at logs";
+    public static String dbName="Assignment3_Group10.db";
 }
