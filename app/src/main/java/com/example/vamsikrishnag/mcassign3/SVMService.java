@@ -40,7 +40,7 @@ public class SVMService {
         }
     }
 
-    public ActivityType test(SQLiteDatabase dbConnection){
+    public String test(SQLiteDatabase dbConnection){
         List<DataBean> testSet;
         ActivityType returnType = null;
         double predictedArr[];
@@ -48,12 +48,20 @@ public class SVMService {
             testSet = packer(dbConnection,false);
             predictedArr = wrapperStub.predictFromSetOfInputs(testSet,modelToTrain);
             returnType = returnMajorityClass(predictedArr);
+            switch(returnType)
+            {
+                case WALKING:
+                        return "WALKING";
+                case RUNNING:
+                        return "RUNNING";
+                case EATING:return "EATING";
+            }
         }
         catch (Exception e){
             Toast.makeText(appContext,Constants.EXCEPTION_SVM_SERVICE,Toast.LENGTH_LONG).show();
             Log.d(e.toString(),e.toString());
         }
-        return returnType;
+        return "";
     }
 
     public ActivityType returnMajorityClass(double [] predictedArr){
@@ -83,7 +91,7 @@ public class SVMService {
         List<DataBean> returnObject = new ArrayList<>();
         Cursor selectCursor = training ? dbConnection.rawQuery(Constants.SQL_TRAINING_SELECT,null)
                 : dbConnection.rawQuery(Constants.SQL_TEST_SELECT,null);
-        int iterLimit = training ? Constants.INPUT_ROWS_TRAINING : Constants.TEST_ROWS_LIMIT;
+        int iterLimit = training ? selectCursor.getCount() : Constants.TEST_ROWS_LIMIT;
         int iterator = 0;
         DataBean beanObject;
         List<Double> tempList;

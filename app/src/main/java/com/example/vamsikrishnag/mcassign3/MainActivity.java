@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Button visualizationButton;
     ProgressDialog progress;
     private String dbPath;
-    private String dataDirecrtoryPath;
+    private String dataDirectoryPath;
     String activityToBeRecorded;
     long previousTime=0;
     private SensorEventListener acclListener=new SensorEventListener() {
@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        dataDirecrtoryPath= "/data/data/"+getApplicationContext().getPackageName();
-        dbPath=dataDirecrtoryPath+"/"+Constants.dbName;
+        dataDirectoryPath= "/data/data/"+getApplicationContext().getPackageName();
+        dbPath=dataDirectoryPath+"/"+Constants.dbName;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -192,12 +192,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                progress = progress.show(MainActivity.this,"","Training of model ongoing",true);
                 serviceObject = new SVMService(getApplicationContext());
+                dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
                 serviceObject.train(dbCon);
-                dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-                tableName=Constants.TRAINING_TABLE;
-                displayTable(dbCon,Constants.TRAINING_TABLE);
-                dbCon.close();
+                progress.dismiss();
+                //tableName=Constants.TRAINING_TABLE;
+                //displayTable(dbCon,Constants.TRAINING_TABLE);
+                //dbCon.close();
           }
         });
 
@@ -211,18 +213,27 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),Constants.TRAIN_FIRST_STRING,Toast.LENGTH_LONG).show();
                     return;
                 }
-                activityToBeRecorded= "performing the activity";
-                tableName= Constants.TEST_TABLE;
-                activity_label = -1;
-                dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-                createTable(dbCon,tableName);
-                registerAcclListener(activityToBeRecorded);
-                if(!progress.isShowing())
+                else
+                {   progress = progress.show(MainActivity.this,"","Testing of model ongoing",true);
+                    dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
+                    String result_activity = serviceObject.test(dbCon);
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(),"Activity performed is "+result_activity,Toast.LENGTH_LONG).show();
+                    return;
+
+                }
+                //activityToBeRecorded= "performing the activity";
+                //tableName= Constants.TEST_TABLE;
+                //activity_label = -1;
+                //dbCon= openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
+                //createTable(dbCon,tableName);
+                //registerAcclListener(activityToBeRecorded);
+/*                if(!progress.isShowing())
                 {
 //                  predictActivity(); Open DB; Query Test table; Use SVM, predict and display the class label
                     deleteTestTable(dbCon);
                     dbCon.close();
-                }
+                }*/
             }
         });
 
@@ -234,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try
                 {
-                    File csvFileHandler = new File(dataDirecrtoryPath+"/data.csv");
+                    File csvFileHandler = new File(dataDirectoryPath+"/data.csv");
                     csvFileHandler.createNewFile();
                     dbCon = openOrCreateDatabase(dbPath, MODE_PRIVATE, null);
                     List<List<Float>> accelerometerValues = new ArrayList<List<Float>>();
@@ -298,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
 //                    csvReader.close();
 
 
-                    Log.d("Data Directory path:",dataDirecrtoryPath);
+                    Log.d("Data Directory path:",dataDirectoryPath);
 
                     Intent newIntention = new Intent(MainActivity.this, Visualization.class);
                     startActivity(newIntention);
