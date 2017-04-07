@@ -15,4 +15,8 @@ public class Constants {
     public static int TEST_ROWS_LIMIT = 20;
     public static String EXCEPTION_SVM_SERVICE = "Exception occured in SVM Service class! Please take a look at logs";
     public static String dbName="Assignment3_Group10.db";
+    public static String FILE_PATH_PHONE = "/data/data/com.example.vamsikrishnag.mcassign3/";
+    public static String inputFileName = "/data.csv";
+    public static String testFileName = "/test.csv";
 }
+
