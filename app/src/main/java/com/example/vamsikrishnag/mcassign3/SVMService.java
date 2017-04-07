@@ -21,17 +21,23 @@ import java.util.List;
 import libsvm.svm_model;
 
 public class SVMService {
-    svm_model modelToTrain = null;
-    SvmWrapper wrapperStub = null;
-    Context appContext = null;
+    private svm_model modelToTrain = null;
+    private SvmWrapper wrapperStub = null;
+    private Context appContext = null;
+    private double kFoldAccuracy;
     SVMService(Context appContext){
         wrapperStub = new SvmWrapper();
         this.appContext = appContext;
     }
 
+    public double getkFoldAccuracy(){
+        return kFoldAccuracy;
+    }
+
     public void train(SQLiteDatabase dbConnection){
         try {
             List<DataBean> trainingSet = packer(dbConnection,true);
+            this.kFoldAccuracy = wrapperStub.doCrossValidation(trainingSet);
             modelToTrain = wrapperStub.trainer(trainingSet);
         }
         catch (Exception e){

@@ -1,5 +1,7 @@
 package com.example.vamsikrishnag.mcassign3.svmwrapperlibrary;
 
+import com.example.vamsikrishnag.mcassign3.Constants;
+
 import java.util.List;
 import libsvm.svm_model;
 import libsvm.svm_node;
@@ -17,8 +19,13 @@ public class SvmWrapper {
     private static svm_parameter paramObject = new svm_parameter();
 
     public svm_model trainer(List<DataBean> inputData)throws Exception{
-        svm_problem prob = new svm_problem();
+        svm_problem prob = problemPacker(inputData);
+        svm_model modelTrained = svm.svm_train(prob,defineParamObject());
+        return modelTrained;
+    }
 
+    public svm_problem problemPacker(List<DataBean> inputData){
+        svm_problem prob = new svm_problem();
         // variables to input
         double nodeVals[][] = new double[inputData.size()][];
         int nodeIndices[][] = new int[inputData.size()][];
@@ -56,8 +63,18 @@ public class SvmWrapper {
                 prob.x[i][j] = nodeTemp;
             }
         }
-        svm_model modelTrained = svm.svm_train(prob,defineParamObject());
-        return modelTrained;
+        return prob;
+    }
+
+    public double doCrossValidation(List<DataBean> inputData){
+        double [] predClasses = new double[inputData.size()];
+        int ctr = 0;
+        svm.svm_cross_validation(problemPacker(inputData),defineParamObject(), Constants.NR_FOLD_CROSS_VALID,predClasses);
+        for (int i = 0; i < predClasses.length; i++)
+        {
+            ctr += (Double.compare(predClasses[i],(double) inputData.get(i).getActType().fId)==0)?1:0;
+        }
+        return ((double) ctr)/inputData.size();
     }
 
     public double[] predictFromSetOfInputs(List<DataBean> inputData,svm_model trainedModel){

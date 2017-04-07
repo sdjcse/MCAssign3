@@ -18,5 +18,6 @@ public class Constants {
     public static String FILE_PATH_PHONE = "/data/data/com.example.vamsikrishnag.mcassign3/";
     public static String inputFileName = "/data.csv";
     public static String testFileName = "/test.csv";
+    public static int NR_FOLD_CROSS_VALID = 4;
 }
 
