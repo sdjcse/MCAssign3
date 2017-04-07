@@ -92,7 +92,8 @@ public class SvmWrapper {
     }
 
 
-
+    // Parameter Reference
+    // https://www.csie.ntu.edu.tw/~cjlin/libsvm/
     public svm_parameter defineParamObject(){
         paramObject.probability = 1;
         paramObject.gamma = 0.5;
