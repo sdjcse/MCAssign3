@@ -13,6 +13,10 @@ public class DataBean {
     private List<Double> accleromterData = null;
     private ActivityType actType;
 
+    public DataBean(ActivityType actType){
+        this.accleromterData = new ArrayList<>();
+        this.actType = actType;
+    }
     public List<Double> getAccleromterData() {
         return accleromterData;
     }

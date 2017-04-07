@@ -4,13 +4,7 @@ package com.example.vamsikrishnag.mcassign3;
  * Created by sdj on 4/3/17.
  */
 
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import android.widget.Toast;
-
+import com.example.vamsikrishnag.mcassign3.csvutil.CSVUtil;
 import com.example.vamsikrishnag.mcassign3.svmwrapperlibrary.ActivityType;
 import com.example.vamsikrishnag.mcassign3.svmwrapperlibrary.DataBean;
 import com.example.vamsikrishnag.mcassign3.svmwrapperlibrary.SvmWrapper;
@@ -23,35 +17,32 @@ import libsvm.svm_model;
 public class SVMService {
     svm_model modelToTrain = null;
     SvmWrapper wrapperStub = null;
-    Context appContext = null;
-    SVMService(Context appContext){
+
+    public SVMService(){
         wrapperStub = new SvmWrapper();
-        this.appContext = appContext;
     }
 
-    public void train(SQLiteDatabase dbConnection){
+    public void train(String fileName){
         try {
-            List<DataBean> trainingSet = packer(dbConnection,true);
+            List<DataBean> trainingSet = CSVUtil.readFromFile(Constants.inputFileName);
             modelToTrain = wrapperStub.trainer(trainingSet);
         }
         catch (Exception e){
-            Toast.makeText(appContext,Constants.EXCEPTION_SVM_SERVICE,Toast.LENGTH_LONG).show();
-            Log.d(e.toString(),e.toString());
+            e.printStackTrace();
         }
     }
 
-    public ActivityType test(SQLiteDatabase dbConnection){
+    public ActivityType test(String fileName,ActivityType actType){
         List<DataBean> testSet;
         ActivityType returnType = null;
         double predictedArr[];
         try {
-            testSet = packer(dbConnection,false);
+            testSet = CSVUtil.readSpecColumn(fileName,actType);
             predictedArr = wrapperStub.predictFromSetOfInputs(testSet,modelToTrain);
             returnType = returnMajorityClass(predictedArr);
         }
         catch (Exception e){
-            Toast.makeText(appContext,Constants.EXCEPTION_SVM_SERVICE,Toast.LENGTH_LONG).show();
-            Log.d(e.toString(),e.toString());
+            e.printStackTrace();
         }
         return returnType;
     }
@@ -79,27 +70,9 @@ public class SVMService {
         return retType;
     }
 
-    public List<DataBean> packer(SQLiteDatabase dbConnection,boolean training)throws Exception{
+    public List<DataBean> packer(String fileName)throws Exception{
         List<DataBean> returnObject = new ArrayList<>();
-        Cursor selectCursor = training ? dbConnection.rawQuery(Constants.SQL_TRAINING_SELECT,null)
-                : dbConnection.rawQuery(Constants.SQL_TEST_SELECT,null);
-        int iterLimit = training ? Constants.INPUT_ROWS_TRAINING : Constants.TEST_ROWS_LIMIT;
-        int iterator = 0;
-        DataBean beanObject;
-        List<Double> tempList;
-        ActivityType setAct;
-        selectCursor.moveToFirst();
-
-        while(iterator<iterLimit){
-            tempList = new ArrayList<>();
-            for (int i = 1; i < selectCursor.getColumnCount()-1; i++) {
-                tempList.add(selectCursor.getDouble(i));
-            }
-            setAct = ActivityType.getValue(selectCursor.getColumnCount()-1);
-            beanObject = new DataBean(setAct,tempList);
-            returnObject.add(beanObject);
-            iterator++;
-        }
+        // Yet to code assume that the input will have one databean in each line with the label in the end
         return returnObject;
     }
 }
