@@ -192,11 +192,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                progress = progress.show(MainActivity.this,"","Training of model ongoing",true);
-                serviceObject = new SVMService(getApplicationContext());
                 dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-                serviceObject.train(dbCon);
-                progress.dismiss();
+                Cursor checkRowCursor = dbCon.rawQuery(Constants.SQL_TRAINING_SELECT,null);
+                if(checkRowCursor.getCount() < 60)
+                {
+                    Toast.makeText(getApplicationContext(),Constants.INSUFFICIENT_DATA,Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else
+                {
+                    progress = progress.show(MainActivity.this,"","Training of model ongoing",true);
+                    serviceObject = new SVMService(getApplicationContext());
+                    serviceObject.train(dbCon);
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(),Constants.TRAINING_COMPLETED,Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+
                 //tableName=Constants.TRAINING_TABLE;
                 //displayTable(dbCon,Constants.TRAINING_TABLE);
                 //dbCon.close();
@@ -218,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                     dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
                     String result_activity = serviceObject.test(dbCon);
                     progress.dismiss();
-                    Toast.makeText(getApplicationContext(),"Activity performed is "+result_activity,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Constants.ACTIVITY_PERFORMED+result_activity,Toast.LENGTH_LONG).show();
                     return;
 
                 }
