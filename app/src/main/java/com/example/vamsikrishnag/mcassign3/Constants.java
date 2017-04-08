@@ -9,6 +9,9 @@ public class Constants {
     public static String TRAINING_TABLE = "Training";
     public static String TEST_TABLE = "Test";
     public static String TRAIN_FIRST_STRING = "Please train before testing!";
+    public static String INSUFFICIENT_DATA = "Data Insufficient to train!";
+    public static String ACTIVITY_PERFORMED = "Activity performed is ";
+    public static String TRAINING_COMPLETED = "Training Completed Successfully";
     public static String SQL_TRAINING_SELECT = "SELECT * FROM " + Constants.TRAINING_TABLE;
     public static String SQL_TEST_SELECT = "SELECT * FROM " + Constants.TEST_TABLE + " LIMIT 10";
     public static int INPUT_ROWS_TRAINING = 60;
