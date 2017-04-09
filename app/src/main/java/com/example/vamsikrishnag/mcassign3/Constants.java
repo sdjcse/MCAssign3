@@ -22,5 +22,6 @@ public class Constants {
     public static String inputFileName = "/data.csv";
     public static String testFileName = "/test.csv";
     public static int NR_FOLD_CROSS_VALID = 4;
+    public static String TRAIN_BEFORE_ABOUT = "Please train before checking accuracy in About Page";
 }
 

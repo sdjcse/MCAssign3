@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private String rowToBeInserted="";
     private SVMService serviceObject=null;
     private Button visualizationButton;
+    private Button aboutButton;
     ProgressDialog progress;
     private String dbPath;
     private String dataDirectoryPath;
@@ -334,5 +335,36 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        aboutButton = (Button) findViewById(R.id.about);
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Intent newIntention = new Intent(MainActivity.this, AboutPage.class);
+                        if (serviceObject == null){
+                            Toast.makeText(getApplicationContext(),Constants.TRAIN_BEFORE_ABOUT,Toast.LENGTH_LONG).show();
+                            String acc = Constants.TRAIN_BEFORE_ABOUT;
+                            Bundle bundle = new Bundle();
+                            bundle.putString("accuracy", acc);
+                            newIntention.putExtras(bundle);
+                            startActivity(newIntention);
+
+                        }
+                        else {
+                            Double accuracy = serviceObject.getkFoldAccuracy();
+                            String acc = String.valueOf(accuracy);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("accuracy", acc);
+                            newIntention.putExtras(bundle);
+                            startActivity(newIntention);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.d("About Failed:",e.getMessage());
+                    }
+
+                }
+            });
     }
 }
