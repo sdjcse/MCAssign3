@@ -228,11 +228,19 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 else
-                {   progress = progress.show(MainActivity.this,"","Testing of model ongoing",true);
+                {
+                    Cursor checkRowCursor = dbCon.rawQuery(Constants.SQL_TRAINING_SELECT,null);
+                    int counter = checkRowCursor.getCount();
+                    while(counter != 1)
+                    {
+                        counter = checkRowCursor.getCount();
+                    }
+                    progress = progress.show(MainActivity.this,"","Testing of model ongoing",true);
                     dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
                     String result_activity = serviceObject.test(dbCon);
                     progress.dismiss();
                     Toast.makeText(getApplicationContext(),Constants.ACTIVITY_PERFORMED+result_activity,Toast.LENGTH_LONG).show();
+                    dbCon.rawQuery(Constants.SQL_TRUNCATE_TEST_TABLE,null);
                     return;
 
                 }

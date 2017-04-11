@@ -13,6 +13,7 @@ public class Constants {
     public static String ACTIVITY_PERFORMED = "Activity performed is ";
     public static String TRAINING_COMPLETED = "Training Completed Successfully";
     public static String SQL_TRAINING_SELECT = "SELECT * FROM " + Constants.TRAINING_TABLE;
+    public static String SQL_TRUNCATE_TEST_TABLE = "TRUNCATE " + Constants.TEST_TABLE;
     public static String SQL_TEST_SELECT = "SELECT * FROM " + Constants.TEST_TABLE + " LIMIT 10";
     public static int INPUT_ROWS_TRAINING = 60;
     public static int TEST_ROWS_LIMIT = 5;
