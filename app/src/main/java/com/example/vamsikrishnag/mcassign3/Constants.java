@@ -13,10 +13,10 @@ public class Constants {
     public static String ACTIVITY_PERFORMED = "Activity performed is ";
     public static String TRAINING_COMPLETED = "Training Completed Successfully";
     public static String SQL_TRAINING_SELECT = "SELECT * FROM " + Constants.TRAINING_TABLE;
-    public static String SQL_TRUNCATE_TEST_TABLE = "TRUNCATE " + Constants.TEST_TABLE;
-    public static String SQL_TEST_SELECT = "SELECT * FROM " + Constants.TEST_TABLE + " LIMIT 10";
+    public static String SQL_DELETE_TEST_TABLE = "DELETE FROM " + Constants.TEST_TABLE;
+    public static String SQL_TEST_SELECT = "SELECT * FROM " + Constants.TEST_TABLE + " ORDER BY ID DESC LIMIT 1";
     public static int INPUT_ROWS_TRAINING = 60;
-    public static int TEST_ROWS_LIMIT = 5;
+    public static int TEST_ROWS_LIMIT = 1;
     public static String EXCEPTION_SVM_SERVICE = "Exception occured in SVM Service class! Please take a look at logs";
     public static String dbName="Assignment3_Group10.db";
     public static String FILE_PATH_PHONE = "/data/data/com.example.vamsikrishnag.mcassign3/";

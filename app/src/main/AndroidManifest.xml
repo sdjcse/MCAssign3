@@ -21,7 +21,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_visualization"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".AboutPage"></activity>
+        <activity android:name=".AboutPage" />
+        <activity android:name=".Performance"></activity>
     </application>
 
 </manifest>

@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,7 +23,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private SQLiteDatabase dbCon;
     private SensorManager AcclManager;// = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -90,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
             catch (Exception e)
             {
                 Log.d(e.getMessage()," at - Insert part "+rowToBeInserted);
+            }
+            if (label == -1){
+                //dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
+                progress= ProgressDialog.show(MainActivity.this,"","Checking activity",true);
+                String result_activity = serviceObject.test(dbCon);
+                progress.dismiss();
+                Toast.makeText(getApplicationContext(),Constants.ACTIVITY_PERFORMED+result_activity,Toast.LENGTH_LONG).show();
+                dbCon.execSQL(Constants.SQL_DELETE_TEST_TABLE);
             }
         }
 
@@ -188,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         Button trainActivity= (Button) findViewById(R.id.train);
         trainActivity.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -229,18 +239,16 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Cursor checkRowCursor = dbCon.rawQuery(Constants.SQL_TRAINING_SELECT,null);
-                    int counter = checkRowCursor.getCount();
-                    while(counter != 1)
-                    {
-                        counter = checkRowCursor.getCount();
-                    }
-                    progress = progress.show(MainActivity.this,"","Testing of model ongoing",true);
                     dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-                    String result_activity = serviceObject.test(dbCon);
-                    progress.dismiss();
-                    Toast.makeText(getApplicationContext(),Constants.ACTIVITY_PERFORMED+result_activity,Toast.LENGTH_LONG).show();
-                    dbCon.rawQuery(Constants.SQL_TRUNCATE_TEST_TABLE,null);
+                    Cursor checkRowCursor = dbCon.rawQuery(Constants.SQL_TEST_SELECT,null);
+                    int counter = checkRowCursor.getCount();
+                    if(counter >= 1)
+                        dbCon.execSQL(Constants.SQL_DELETE_TEST_TABLE);
+
+                    createTable(dbCon,Constants.TEST_TABLE);
+                    tableName=Constants.TEST_TABLE;
+                    activity_label = -1;
+                    registerAcclListener("Testing");
                     return;
 
                 }
@@ -360,7 +368,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             Double accuracy = serviceObject.getkFoldAccuracy();
-                            String acc = String.valueOf(accuracy);
+                            String acc = Double.toString(accuracy);
+                            Log.d("Accuracy =",acc);
                             Bundle bundle = new Bundle();
                             bundle.putString("accuracy", acc);
                             newIntention.putExtras(bundle);
