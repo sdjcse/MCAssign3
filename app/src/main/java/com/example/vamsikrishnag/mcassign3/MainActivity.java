@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                     FileWriter csvWriter= new FileWriter(csvFileHandler);
 
-                    csvWriter.write("x1,y1,z1,x2,y2,z2,x3,y3,z3\n");
+                    csvWriter.write("x1,y1,z1,x2,y2,z2,x3,y3,z3\r\n");
                     int counter=0;
                     int[] noOfSamplesList=new int[3];
                     for(int i=0;i<3;i++)
@@ -317,7 +317,8 @@ public class MainActivity extends AppCompatActivity{
                         StringBuilder sbEachLine= new StringBuilder(eachLine);
                         sbEachLine.deleteCharAt(length-1);
                         eachLine= sbEachLine.toString();
-                        csvWriter.write(eachLine+"\n");
+                        csvWriter.write(eachLine+"\r\n");
+
                         Log.d("Line number "+Integer.toString(counter)+":", eachLine);
                         counter+=3;
                     }
