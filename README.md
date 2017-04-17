@@ -11,4 +11,9 @@ For visualization we are using plotly JS in web view
 
 https://plot.ly/
 
+For Performance we are using Trepn Power Profiler
+
+https://developer.qualcomm.com/software/trepn-power-profiler
+
+
 

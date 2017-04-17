@@ -16,6 +16,7 @@ import com.example.vamsikrishnag.mcassign3.svmwrapperlibrary.DataBean;
 import com.example.vamsikrishnag.mcassign3.svmwrapperlibrary.SvmWrapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import libsvm.svm_model;
@@ -53,6 +54,7 @@ public class SVMService {
         try {
             testSet = packer(dbConnection,false);
             predictedArr = wrapperStub.predictFromSetOfInputs(testSet,modelToTrain);
+            Log.d("Pred array =", Arrays.toString(predictedArr));
             returnType = returnMajorityClass(predictedArr);
             switch(returnType)
             {
@@ -109,10 +111,11 @@ public class SVMService {
             for (int i = 1; i < selectCursor.getColumnCount()-1; i++) {
                 tempList.add(selectCursor.getDouble(i));
             }
-            setAct = ActivityType.getValue(selectCursor.getColumnCount()-1);
+            setAct = ActivityType.getValue(selectCursor.getInt(selectCursor.getColumnCount()-1));
             beanObject = new DataBean(setAct,tempList);
             returnObject.add(beanObject);
             iterator++;
+            selectCursor.moveToNext();
         }
         return returnObject;
     }

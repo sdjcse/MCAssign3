@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,7 +23,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private SQLiteDatabase dbCon;
     private SensorManager AcclManager;// = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private String rowToBeInserted="";
     private SVMService serviceObject=null;
     private Button visualizationButton;
+    private Button aboutButton;
     ProgressDialog progress;
     private String dbPath;
     private String dataDirectoryPath;
@@ -89,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
             catch (Exception e)
             {
                 Log.d(e.getMessage()," at - Insert part "+rowToBeInserted);
+            }
+            if (label == -1){
+                //dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
+                progress= ProgressDialog.show(MainActivity.this,"","Checking activity",true);
+                String result_activity = serviceObject.test(dbCon);
+                progress.dismiss();
+                Toast.makeText(getApplicationContext(),Constants.ACTIVITY_PERFORMED+result_activity,Toast.LENGTH_LONG).show();
+                dbCon.execSQL(Constants.SQL_DELETE_TEST_TABLE);
             }
         }
 
@@ -187,16 +197,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         Button trainActivity= (Button) findViewById(R.id.train);
         trainActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view)
             {
-                progress = progress.show(MainActivity.this,"","Training of model ongoing",true);
-                serviceObject = new SVMService(getApplicationContext());
                 dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-                serviceObject.train(dbCon);
-                progress.dismiss();
+                Cursor checkRowCursor = dbCon.rawQuery(Constants.SQL_TRAINING_SELECT,null);
+                if(checkRowCursor.getCount() < 60)
+                {
+                    Toast.makeText(getApplicationContext(),Constants.INSUFFICIENT_DATA,Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else
+                {
+                    progress = progress.show(MainActivity.this,"","Training of model ongoing",true);
+                    serviceObject = new SVMService(getApplicationContext());
+                    serviceObject.train(dbCon);
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(),Constants.TRAINING_COMPLETED,Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+
                 //tableName=Constants.TRAINING_TABLE;
                 //displayTable(dbCon,Constants.TRAINING_TABLE);
                 //dbCon.close();
@@ -214,11 +238,17 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 else
-                {   progress = progress.show(MainActivity.this,"","Testing of model ongoing",true);
+                {
                     dbCon = openOrCreateDatabase(dbPath,MODE_PRIVATE,null);
-                    String result_activity = serviceObject.test(dbCon);
-                    progress.dismiss();
-                    Toast.makeText(getApplicationContext(),"Activity performed is "+result_activity,Toast.LENGTH_LONG).show();
+                    Cursor checkRowCursor = dbCon.rawQuery(Constants.SQL_TEST_SELECT,null);
+                    int counter = checkRowCursor.getCount();
+                    if(counter >= 1)
+                        dbCon.execSQL(Constants.SQL_DELETE_TEST_TABLE);
+
+                    createTable(dbCon,Constants.TEST_TABLE);
+                    tableName=Constants.TEST_TABLE;
+                    activity_label = -1;
+                    registerAcclListener("Testing");
                     return;
 
                 }
@@ -264,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     FileWriter csvWriter= new FileWriter(csvFileHandler);
 
-                    csvWriter.write("x1,y1,z1,x2,y2,z2,x3,y3,z3\n");
+                    csvWriter.write("x1,y1,z1,x2,y2,z2,x3,y3,z3\r\n");
                     int counter=0;
                     int[] noOfSamplesList=new int[3];
                     for(int i=0;i<3;i++)
@@ -287,7 +317,8 @@ public class MainActivity extends AppCompatActivity {
                         StringBuilder sbEachLine= new StringBuilder(eachLine);
                         sbEachLine.deleteCharAt(length-1);
                         eachLine= sbEachLine.toString();
-                        csvWriter.write(eachLine+"\n");
+                        csvWriter.write(eachLine+"\r\n");
+
                         Log.d("Line number "+Integer.toString(counter)+":", eachLine);
                         counter+=3;
                     }
@@ -321,5 +352,37 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        aboutButton = (Button) findViewById(R.id.about);
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Intent newIntention = new Intent(MainActivity.this, AboutPage.class);
+                        if (serviceObject == null){
+                            Toast.makeText(getApplicationContext(),Constants.TRAIN_BEFORE_ABOUT,Toast.LENGTH_LONG).show();
+                            String acc = Constants.TRAIN_BEFORE_ABOUT;
+                            Bundle bundle = new Bundle();
+                            bundle.putString("accuracy", acc);
+                            newIntention.putExtras(bundle);
+                            startActivity(newIntention);
+
+                        }
+                        else {
+                            Double accuracy = serviceObject.getkFoldAccuracy();
+                            String acc = Double.toString(accuracy);
+                            Log.d("Accuracy =",acc);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("accuracy", acc);
+                            newIntention.putExtras(bundle);
+                            startActivity(newIntention);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.d("About Failed:",e.getMessage());
+                    }
+
+                }
+            });
     }
 }

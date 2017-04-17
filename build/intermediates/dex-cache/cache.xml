@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a8ac3be46a51df20dae8cc7b78dd563d3fa4327a">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_3a13547cfb9c0ec65fd92d638bfe1ba0d17fa2c2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/MCAssign3/app/libs/libsvm.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ce4cc769dfecabc92913f36b3332e1a6b0534cb7">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/2/libsvm_78703a02776954d07dd0de56c0847002d6822f53/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="/Users/vamsikrishnag/MCAssign3/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_a608e0dfb952add5d3e9dcfc2df25a1c22f982ef/classes.dex" />
+    </item>
+
+</items>

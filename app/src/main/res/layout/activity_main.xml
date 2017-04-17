@@ -89,14 +89,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
-        <Button
-            android:id="@+id/performance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:text="Performance"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="381dp" />
 
         <Button
             android:id="@+id/visual"
@@ -104,6 +96,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:text="Visualization"
+            tools:layout_editor_absoluteX="200dp"
+            tools:layout_editor_absoluteY="381dp" />
+        <Button
+            android:id="@+id/about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:text="About SVM"
             tools:layout_editor_absoluteX="200dp"
             tools:layout_editor_absoluteY="381dp" />
 
